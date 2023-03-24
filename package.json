@@ -4,10 +4,12 @@
   "version": "0.0.0",
   "scripts": {
     "dev": "vite --mode dev --host",
+    "vercel": "vite --mode vercel --host",
     "prod": "vite --mode prod",
     "builddev": " vite build --mode dev",
     "buildtest": "vite build --mode test",
     "buildmain": "vite build --mode prod",
+    "buildvercel": "vite build --mode vercel",
     "build": "vite build --mode prod",
     "preview": "vite preview"
   },

@@ -12,14 +12,14 @@ import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
 const pathSrc = path.resolve(__dirname, 'src')
 
 function getBase(mode: string) {
-  if (mode === 'test') {
-    return '/keshang-crm/'
+  if (mode === 'vercel') {
+    return '/'
   }
   if (mode === 'dev') {
-    return '/keshang-crm/'
+    return '/fast-gpt/'
   }
   if (mode === 'prod') {
-    return '/keshang-crm/'
+    return '/fast-gpt/'
   }
   return ''
 }
@@ -40,7 +40,7 @@ export default ({mode, command}) =>
         }
       },
       envDir: path.resolve(__dirname, 'env'),
-      base: '/', // 二级目录
+      base: getBase(mode), // 二级目录
       resolve: {
         alias: [
           {

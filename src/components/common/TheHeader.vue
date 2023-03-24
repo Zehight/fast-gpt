@@ -8,8 +8,8 @@ import {Comment} from '@element-plus/icons-vue'
   <div class="the-header flex">
       <div style="display: flex;align-items: center">
         <el-icon style="font-size: 40px;color: #f17eb8"><Comment /></el-icon>
-        <span class="title" style="color: #38bdf8;margin-left: 16px">会议终结者</span>
-        <span class="title" style="color: #4F5F6F;margin-left: 8px">MeetingGPT</span>
+<!--        <span class="title" style="color: #38bdf8;margin-left: 16px">会议终结者</span>-->
+        <span class="title" style="color: #4F5F6F;margin-left: 8px">FastGPT</span>
       </div>
     </div>
 </template>
