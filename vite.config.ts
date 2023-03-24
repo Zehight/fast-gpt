@@ -30,14 +30,14 @@ export default ({mode, command}) =>
       server: {
         port: 3000,
         hmr: true,
-        proxy: {
-          '/api': {
-            // target: 'https://eaiops.mccbts.com.cn/cigpf-gateway/realname', //lyl
-            target: 'http://miragari.com:5003', // lyl
-            changeOrigin: true,
-            rewrite: (address) => address.replace(/^\/api/, '')
-          }
-        }
+        // proxy: {
+        //   '/api': {
+        //     // target: 'https://eaiops.mccbts.com.cn/cigpf-gateway/realname', //lyl
+        //     target: 'http://miragari.com:5003', // lyl
+        //     changeOrigin: true,
+        //     rewrite: (address) => address.replace(/^\/api/, '')
+        //   }
+        // }
       },
       envDir: path.resolve(__dirname, 'env'),
       base: getBase(mode), // 二级目录
