@@ -33,7 +33,7 @@ export default ({mode, command}) =>
         proxy: {
           '/api': {
             // target: 'https://eaiops.mccbts.com.cn/cigpf-gateway/realname', //lyl
-            target: 'http://localhost:5000', // lyl
+            target: 'http://miragari.com:5003', // lyl
             changeOrigin: true,
             rewrite: (address) => address.replace(/^\/api/, '')
           }
