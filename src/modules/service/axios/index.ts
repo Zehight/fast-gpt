@@ -5,7 +5,7 @@ import { requestFailFunc, requestSuccessFunc, responseFailFunc, responseSuccessF
 // 默认配置
 const axiosInstance = axios.create({
   baseURL: import.meta.env.VITE_APP_BASEURL,
-  timeout: 20000,
+  timeout: 200000,
   maxContentLength: 2000,
   /* 允许携带cookie */
   withCredentials: false, // 表示跨域请求时是否需要使用凭证, 默认false
