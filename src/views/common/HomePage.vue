@@ -11,10 +11,13 @@ const route = useRoute();
 const router = useRouter();
 const loading = ref(false);
 const question = ref(route.query.q);
-
+const questionList = ["nihao", "wawa", "bingxing", "ww", "达瓦达瓦"];
 const markdownText: any = ref();
 
 async function search() {
+  if (question.value == "") {
+    return "";
+  }
   loading.value = true;
   const md: any = new MarkdownIt({
     html: true,
@@ -27,15 +30,16 @@ async function search() {
         } catch (__) {
         }
       }
-      return "<pre class=\"hljs\"><code>" + md.utils.escapeHtml(str) + "</code></pre>"
+      return "<pre class=\"hljs\"><code>" + md.utils.escapeHtml(str) + "</code></pre>";
     }
-  })
+  });
 
   md.use(mdAttrs);
   md.use(mdEmoji);
-  const res: any = await Fast.chat({ question: question.value })
+  const res: any = await Fast.chat({ question: question.value });
   // answer.value = res.answer.response_format.content
-  markdownText.value = md.render(res.choices[0].message.content)
+  markdownText.value = md.render(res.choices[0].message.content);
+  console.log(res);
   loading.value = false;
 }
 
@@ -53,9 +57,8 @@ if (question.value !== undefined) {
         <div style="font-size: 96px">快速发起一次<span style="color: #f17eb8;">AI</span>问答</div>
         <div>Powered by GPT-3.5 AI</div>
       </div>
-      <el-card shadow="never" class="infoCard" style="min-height: 60px;" v-if="question">
-        {{ question }}
-      </el-card>
+      <el-input class="infoCard" style="min-height: 60px;" v-model="question" @keyup.enter="search" :disabled="loading"
+                placeholder="输入问题，回车发送" />
       <el-card shadow="never" class="infoCard" style="min-height: 180px;" v-loading="loading">
         <div v-html="markdownText" class="markdown"></div>
       </el-card>
@@ -90,6 +93,11 @@ if (question.value !== undefined) {
   width: 1000px;
   overflow: hidden;
   border: dashed 2px rgba(0, 0, 0, 0.1);
+}
+
+:deep(.el-input__wrapper) {
+  box-shadow: unset;
+  font-size: 16px;
 }
 
 .toZongjie {
@@ -234,8 +242,6 @@ if (question.value !== undefined) {
   padding: 6px 13px;
   border: 1px solid #dfe2e5;
 }
-
-
 
 
 </style>
