@@ -42,7 +42,7 @@ async function search() {
   markdownText.value = ''
   text.value = ''
   loading.value = true
-  const sse = new EventSource(`/api/streamChat?q=${question.value}`)
+  const sse = new EventSource(`https://api.miragari.com/fast/streamChat?q=${question.value}`)
   sse.onmessage = e => {
     const result = JSON.parse(e.data).choices[0].delta
     if(result.content){
