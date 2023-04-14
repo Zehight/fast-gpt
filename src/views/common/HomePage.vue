@@ -9,38 +9,39 @@ import 'highlight.js/styles/vs.css'
 import mdAttrs from 'markdown-it-attrs'
 import mdEmoji from 'markdown-it-emoji'
 
+const md: any = new MarkdownIt({
+  html: true,
+  highlight(str, lang) {
+    if (lang && hljs.getLanguage(lang)) {
+      try {
+        return `<pre class="hljs"><code>${
+          hljs.highlight(lang, str, true).value
+        }</code></pre>`
+        // eslint-disable-next-line no-empty
+      } catch (__) {
+      }
+    }
+    return `<pre class="hljs"><code>${  md.utils.escapeHtml(str)  }</code></pre>`
+  }
+})
+md.use(mdAttrs)
+md.use(mdEmoji)
+
 const route = useRoute()
 
 const loading = ref(false)
 const question = ref(route.query.q)
+const test = [{'role':'user','content':'你好'}]
 
 const text = ref('')
 const markdownText: any = ref()
 
-async function search() {
-  if (question.value === '') {
-    markdownText.value = ''
-  }
-  loading.value = true
-  const md: any = new MarkdownIt({
-    html: true,
-    highlight(str, lang) {
-      if (lang && hljs.getLanguage(lang)) {
-        try {
-          return `<pre class="hljs"><code>${ 
-            hljs.highlight(lang, str, true).value 
-          }</code></pre>`
-          // eslint-disable-next-line no-empty
-        } catch (__) {
-        }
-      }
-      return `<pre class="hljs"><code>${  md.utils.escapeHtml(str)  }</code></pre>`
-    }
-  })
+console.log(JSON.stringify(test))
 
-  md.use(mdAttrs)
-  md.use(mdEmoji)
+async function search() {
+  markdownText.value = ''
   text.value = ''
+  loading.value = true
   const sse = new EventSource(`/api/streamChat?q=${question.value}`)
   sse.onmessage = e => {
     const result = JSON.parse(e.data).choices[0].delta
@@ -53,12 +54,11 @@ async function search() {
     sse.close()
     loading.value = false
   })
-
 }
 
-// if (question.value !== undefined) {
-//   search()
-// }
+if (question.value !== undefined) {
+  search()
+}
 
 </script>
 
