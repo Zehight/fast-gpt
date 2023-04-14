@@ -1,7 +1,6 @@
 <script lang="ts" setup>
 import { ElConfigProvider } from 'element-plus'
 import zhCn from 'element-plus/lib/locale/lang/zh-cn'
-import HomePage from '@/views/common/HomePage.vue'
 
 /**
  * 1. 在 pinia(@/modules/store/keepAlive.ts) 中维护需要缓存 路由name
@@ -12,6 +11,7 @@ import HomePage from '@/views/common/HomePage.vue'
 
 // 全局配置 element-plus 国际化
 const locale = zhCn
+
 </script>
 
 <template>

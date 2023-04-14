@@ -1,52 +1,64 @@
 <script setup lang="ts">
-import { Fast } from "@/modules/service";
-import { useRoute, useRouter } from "vue-router";
-import MarkdownIt from "markdown-it";
-import hljs from "highlight.js";
-import "highlight.js/styles/vs.css";
-import mdAttrs from "markdown-it-attrs";
-import mdEmoji from "markdown-it-emoji";
+import { Fast } from '@/modules/service'
+import { useRoute, useRouter } from 'vue-router'
+import MarkdownIt from 'markdown-it'
+// eslint-disable-next-line import/no-extraneous-dependencies
+import hljs from 'highlight.js'
+// eslint-disable-next-line import/no-extraneous-dependencies
+import 'highlight.js/styles/vs.css'
+import mdAttrs from 'markdown-it-attrs'
+import mdEmoji from 'markdown-it-emoji'
 
-const route = useRoute();
-const router = useRouter();
-const loading = ref(false);
-const question = ref(route.query.q);
-const questionList = ["nihao", "wawa", "bingxing", "ww", "达瓦达瓦"];
-const markdownText: any = ref();
+const route = useRoute()
+
+const loading = ref(false)
+const question = ref(route.query.q)
+
+const text = ref('')
+const markdownText: any = ref()
 
 async function search() {
-  if (question.value == "") {
-    return "";
+  if (question.value === '') {
+    markdownText.value = ''
   }
-  loading.value = true;
+  loading.value = true
   const md: any = new MarkdownIt({
     html: true,
-    highlight: function(str, lang) {
+    highlight(str, lang) {
       if (lang && hljs.getLanguage(lang)) {
         try {
-          return "<pre class=\"hljs\"><code>" +
-            hljs.highlight(lang, str, true).value +
-            "</code></pre>";
+          return `<pre class="hljs"><code>${ 
+            hljs.highlight(lang, str, true).value 
+          }</code></pre>`
+          // eslint-disable-next-line no-empty
         } catch (__) {
         }
       }
-      return "<pre class=\"hljs\"><code>" + md.utils.escapeHtml(str) + "</code></pre>";
+      return `<pre class="hljs"><code>${  md.utils.escapeHtml(str)  }</code></pre>`
     }
-  });
+  })
 
-  md.use(mdAttrs);
-  md.use(mdEmoji);
-  const res: any = await Fast.chat({ question: question.value });
-  // answer.value = res.answer.response_format.content
-  markdownText.value = md.render(res.choices[0].message.content);
-  console.log(res);
-  loading.value = false;
+  md.use(mdAttrs)
+  md.use(mdEmoji)
+  text.value = ''
+  const sse = new EventSource(`/api/streamChat?q=${question.value}`)
+  sse.onmessage = e => {
+    const result = JSON.parse(e.data).choices[0].delta
+    if(result.content){
+      text.value += result.content
+    }
+    markdownText.value = md.render(text.value)
+  }
+  sse.addEventListener('stop',event => {
+    sse.close()
+    loading.value = false
+  })
+
 }
 
-if (question.value !== undefined) {
-  search();
-}
-
+// if (question.value !== undefined) {
+//   search()
+// }
 
 </script>
 
@@ -59,7 +71,7 @@ if (question.value !== undefined) {
       </div>
       <el-input class="infoCard" style="min-height: 60px;" v-model="question" @keyup.enter="search" :disabled="loading"
                 placeholder="输入问题，回车发送" />
-      <el-card shadow="never" class="infoCard" style="min-height: 180px;" v-loading="loading">
+      <el-card shadow="never" class="infoCard" style="min-height: 180px;">
         <div v-html="markdownText" class="markdown"></div>
       </el-card>
     </div>
