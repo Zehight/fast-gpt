@@ -16,9 +16,7 @@
 </template>
 
 <style scoped>
-.aside {
-  width: 220px;
-}
+
 
 .container:deep(.el-header) {
   padding: 0;

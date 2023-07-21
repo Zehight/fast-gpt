@@ -66,12 +66,12 @@ if (question.value !== undefined) {
   <TheContainer>
     <div class="main">
       <div class="mainText">
-        <div style="font-size: 96px">快速发起一次<span style="color: #f17eb8;">AI</span>问答</div>
-        <div>Powered by GPT-3.5 AI</div>
+        <div class="TitleOne">快速发起一次<span style="color: #f17eb8;">AI</span>问答</div>
+        <div class="TitleTwo">Powered by GPT-3.5 AI</div>
       </div>
-      <el-input class="infoCard" style="min-height: 60px;" v-model="question" @keyup.enter="search" :disabled="loading"
+      <el-input class="infoCard" style="min-height: 60px;max-width: 1536px" v-model="question" @keyup.enter="search" :disabled="loading"
                 placeholder="输入问题，回车发送" />
-      <el-card shadow="never" class="infoCard" style="min-height: 180px;">
+      <el-card shadow="never" class="infoCard" style="min-height: 500px;max-width: 1536px;width: 100%">
         <div v-html="markdownText" class="markdown"></div>
       </el-card>
     </div>
@@ -87,11 +87,38 @@ if (question.value !== undefined) {
   height: 100%;
 }
 
+@media (max-width: 600px) {
+  .TitleOne {
+    font-size: 36px;
+  }
+  .TitleTwo {
+    font-size: 20px;
+  }
+}
+
+@media (min-width: 601px) and (max-width: 1200px) {
+  .TitleOne {
+    font-size: 62px;
+  }
+  .TitleTwo {
+    font-size: 32px;
+  }
+}
+
+@media (min-width: 1201px) {
+  .TitleOne {
+    font-size: 96px;
+  }
+  .TitleTwo {
+    font-size: 48px;
+  }
+}
+
+
 .mainText {
   text-align: center;
-  font-size: 56px;
   font-weight: 600;
-  margin-top: 10%;
+  margin-top: 36px;
 }
 
 .describe {
@@ -102,7 +129,6 @@ if (question.value !== undefined) {
 
 .infoCard {
   margin-top: 16px;
-  width: 1000px;
   overflow: hidden;
   border: dashed 2px rgba(0, 0, 0, 0.1);
 }

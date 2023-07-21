@@ -7,9 +7,7 @@
 </template>
 
 <style scoped>
-.main-container {
-  min-width: 1100px;
-}
+
 
 .scroll-bar {
   flex: 1;
